@@ -5,7 +5,7 @@ import player3 from "./assets/player3.png"
 import player4 from "./assets/player4.png"
 import background from "./assets/background.png"
 
-const CreateEmployee = () => {
+const CreateEmployee = (props) => {
     const [name, setName] = useState("")
     const [favColor, setFavColor] = useState('')
     const [charType, setCharType] = useState("A")
@@ -21,7 +21,7 @@ const CreateEmployee = () => {
         .insert({name: name, "favorite-color": favColor, "character-type": charType})
     
         window.location.href = "/list";
-      }
+    }
   
     return (
         <div className='App'>

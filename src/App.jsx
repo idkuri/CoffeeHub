@@ -9,6 +9,7 @@ function App(props) {
   const [name, setName] = useState("")
   const [stars, setStar] = useState(1)
   const [data, setData] = useState(null)
+  const [orderBy, setOrder] = useState("date_created")
 
   function activateInput(id) {
     const elem = document.getElementById('star-' + id)
@@ -17,7 +18,7 @@ function App(props) {
   }
 
   async function fetchPost() {
-    const { data, error } = await props.supabase.from('Reviews').select()
+    const { data, error } = await props.supabase.from("Reviews").select().order(orderBy, { ascending: false });
     setData(data)
   }
 
@@ -25,13 +26,17 @@ function App(props) {
     fetchPost()
   }, [])
 
+  useEffect(() => {
+    fetchPost()
+  }, [orderBy])
+
   function renderReviews() {
     let elemList = []
     if (data != null) {
       for (let review of data) {
         if (review['star'] == 1) {
           elemList.push(
-            <div className='review-elem'>
+            <div key={review["id"]} className='review-elem' onClick={() => {window.location.href = "/review/" + review["id"]}}>
               <p>{`Name: ${review['name']}`}</p>
               <p>{`Comments: ${review['content']}`}</p>
               <img className="star-img" src={star}></img>
@@ -40,7 +45,7 @@ function App(props) {
         }
         else if (review['star'] == 2) {
           elemList.push(
-            <div className='review-elem'>
+            <div key={review["id"]} className='review-elem' onClick={() => {window.location.href = "/review/" + review["id"]}}>
               <p>{`Name: ${review['name']}`}</p>
               <p>{`Comments: ${review['content']}`}</p>
               <img className="star-img" src={star}></img>
@@ -50,7 +55,7 @@ function App(props) {
         }
         else if (review['star'] == 3) {
           elemList.push(
-            <div className='review-elem'>
+            <div key={review["id"]} className='review-elem' onClick={() => {window.location.href = "/review/" + review["id"]}}>
               <p>{`Name: ${review['name']}`}</p>
               <p>{`Comments: ${review['content']}`}</p>
               <img className="star-img" src={star}></img>
@@ -61,7 +66,7 @@ function App(props) {
         }
         else if (review['star'] == 4) {
           elemList.push(
-            <div className='review-elem'>
+            <div key={review["id"]} className='review-elem' onClick={() => {window.location.href = "/review/" + review["id"]}}>
               <p>{`Name: ${review['name']}`}</p>
               <p>{`Comments: ${review['content']}`}</p>
               <img className="star-img" src={star}></img>
@@ -73,7 +78,7 @@ function App(props) {
         }
         else if (review['star'] == 5) {
           elemList.push(
-            <div className='review-elem'>
+            <div key={review["id"]} className='review-elem' onClick={() => {window.location.href = "/review/" + review["id"]}}>
               <p>{`Name: ${review['name']}`}</p>
               <p>{`Comments: ${review['content']}`}</p>
               <img className="star-img" src={star}></img>
@@ -156,7 +161,7 @@ function App(props) {
         <div className="post-button-container">
           <label>
             <button className="btn text-xl" onClick={() => createReview()}>Submit Post</button>
-          </label>
+          </label>         
         </div>
       </form>
     );
@@ -169,6 +174,9 @@ function App(props) {
       (<div className='review-container'>
       {renderReviews()}     
       <button onClick={()=> {setMode(1)}}>Create Review</button>
+      <button className="btn text-xl" onClick={() => setOrder("date_created")}>Sort By Time Created</button>
+      <button className="btn text-xl" onClick={() => setOrder("star")}>Sort By Stars</button>
+      <button className="btn text-xl" onClick={() => setOrder("name")}>Sort By Name</button>
       </div>)}
     </div>
   )

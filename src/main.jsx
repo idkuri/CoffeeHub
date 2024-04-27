@@ -4,6 +4,7 @@ import App from './App.jsx'
 import Employee from "./Employee.jsx"
 import EmployeeInfo from "./EmployeeInfo.jsx"
 import CreateEmployee from './CreateEmployee.jsx'
+import Review from "./Review.jsx"
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import { createClient } from '@supabase/supabase-js'
 import './App.css'
@@ -30,6 +31,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/list" element={<Employee supabase={supabase}/>} />
         <Route path="/create-employee" element={<CreateEmployee supabase={supabase}/>} />
         <Route path="/employee/:id" element={<EmployeeInfo supabase={supabase}/>} />
+        <Route path="/review/:id" element={<Review supabase={supabase}/>} />
     </Routes>
   </BrowserRouter>
 )
